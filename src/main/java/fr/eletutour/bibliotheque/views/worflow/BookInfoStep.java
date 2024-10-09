@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import fr.eletutour.bibliotheque.config.exceptions.GenreException;
 import fr.eletutour.bibliotheque.dao.model.Book;
 import fr.eletutour.bibliotheque.dao.model.Genre;
 import fr.eletutour.bibliotheque.dao.model.Series;
@@ -31,9 +32,7 @@ public class BookInfoStep extends VerticalLayout {
         genreComboBox.setItemLabelGenerator(Genre::getName);
 
         // Bouton pour ajouter un nouveau genre via une pop-up
-        Button addNewGenreButton = new Button("Ajouter Genre", event -> {
-            openAddGenreDialog(genreComboBox, genreService);
-        });
+        Button addNewGenreButton = new Button("Ajouter Genre", event -> openAddGenreDialog(genreComboBox, genreService));
 
         // Checkbox pour indiquer si le livre fait partie d'une série
         Checkbox isPartOfSeriesCheckbox = new Checkbox("Fait partie d'une série");
@@ -51,9 +50,7 @@ public class BookInfoStep extends VerticalLayout {
         volumeNumberField.setValue(book.getVolumeNumber() != null ? book.getVolumeNumber().toString() : "");
 
         // Pop-up pour ajouter une nouvelle série
-        Button addNewSeriesButton = new Button("Ajouter Série", e -> {
-            openAddSeriesDialog(seriesComboBox, seriesService);
-        });
+        Button addNewSeriesButton = new Button("Ajouter Série", e -> openAddSeriesDialog(seriesComboBox, seriesService));
         addNewSeriesButton.setVisible(false);
 
         // Activer/désactiver la ComboBox de série et le champ numéro de tome en fonction de la checkbox
@@ -115,12 +112,17 @@ public class BookInfoStep extends VerticalLayout {
             String genreName = newGenreNameField.getValue();
             if (!genreName.isEmpty()) {
                 Genre newGenre = new Genre(genreName);
-                genreService.save(newGenre);
-                genreComboBox.setItems(genreService.findAll());  // Mise à jour de la liste des genres
-                genreComboBox.select(newGenre);  // Sélection du nouveau genre
-                Notification success = Notification.show("Genre ajouté avec succès!");
-                success.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                dialog.close();
+                try {
+                    genreService.save(newGenre);
+                    genreComboBox.setItems(genreService.findAll());  // Mise à jour de la liste des genres
+                    genreComboBox.select(newGenre);  // Sélection du nouveau genre
+                    Notification success = Notification.show("Genre ajouté avec succès!");
+                    success.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    dialog.close();
+                } catch (GenreException e) {
+                    Notification error = Notification.show(e.getMessage());
+                    error.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
             } else {
                 Notification error = Notification.show("Le nom du genre est requis.");
                 error.addThemeVariants(NotificationVariant.LUMO_ERROR);

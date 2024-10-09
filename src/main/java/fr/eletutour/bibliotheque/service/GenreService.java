@@ -1,5 +1,6 @@
 package fr.eletutour.bibliotheque.service;
 
+import fr.eletutour.bibliotheque.config.exceptions.GenreException;
 import fr.eletutour.bibliotheque.dao.model.Genre;
 import fr.eletutour.bibliotheque.dao.repository.GenreRepository;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,9 @@ public class GenreService {
         return genreRepository.findAll();
     }
 
-    public void save(Genre genre) {
+    public void save(Genre genre) throws GenreException {
         if (genreRepository.existsByNameIgnoreCase(genre.getName())) {
-            throw new IllegalArgumentException("This genre already exists.");
+            throw new GenreException("Ce genre existe déjà.");
         }
         genreRepository.save(genre);
     }

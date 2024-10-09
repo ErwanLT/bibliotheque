@@ -1,5 +1,6 @@
 package fr.eletutour.bibliotheque.service;
 
+import fr.eletutour.bibliotheque.config.exceptions.BookTypeException;
 import fr.eletutour.bibliotheque.dao.model.BookType;
 import fr.eletutour.bibliotheque.dao.repository.BookTypeRepository;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,9 @@ public class BookTypeService {
         return bookTypeRepository.findAll();
     }
 
-    public void save(BookType bookType) {
+    public void save(BookType bookType) throws BookTypeException {
         if (bookTypeRepository.existsByNameIgnoreCase(bookType.getName())) {
-            throw new IllegalArgumentException("This book type already exists.");
+            throw new BookTypeException("Ce type existe déjà.");
         }
         bookTypeRepository.save(bookType);
     }

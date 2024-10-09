@@ -3,12 +3,12 @@ package fr.eletutour.bibliotheque.views.worflow;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import fr.eletutour.bibliotheque.config.exceptions.BookTypeException;
 import fr.eletutour.bibliotheque.dao.model.Book;
 import fr.eletutour.bibliotheque.dao.model.BookType;
 import fr.eletutour.bibliotheque.service.BookTypeService;
@@ -26,9 +26,7 @@ public class BookTypeSelectionStep extends VerticalLayout {
         bookTypeComboBox.setItemLabelGenerator(BookType::getName); // Méthode pour afficher le nom du type
 
         // Bouton pour ajouter un nouveau type de livre
-        Button addBookTypeButton = new Button("Ajouter un nouveau type", event -> {
-            openAddBookTypeDialog(bookTypeComboBox);
-        });
+        Button addBookTypeButton = new Button("Ajouter un nouveau type", event -> openAddBookTypeDialog(bookTypeComboBox));
 
         add(bookTypeComboBox, addBookTypeButton);
 
@@ -61,13 +59,18 @@ public class BookTypeSelectionStep extends VerticalLayout {
             String newTypeName = newBookTypeField.getValue();
             if (!newTypeName.isEmpty()) {
                 BookType newBookType = new BookType(newTypeName);
-                bookTypeService.save(newBookType); // Sauvegarde en base
-                bookTypeComboBox.setItems(bookTypeService.findAll()); // Mise à jour de la liste des types
-                bookTypeComboBox.setValue(newBookType); // Sélection automatique du nouveau type
+                try {
+                    bookTypeService.save(newBookType);
+                    bookTypeComboBox.setItems(bookTypeService.findAll()); // Mise à jour de la liste des types
+                    bookTypeComboBox.setValue(newBookType); // Sélection automatique du nouveau type
 
-                Notification success = Notification.show("Type ajouté avec succès!");
-                success.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                dialog.close(); // Fermer la pop-up après sauvegarde
+                    Notification success = Notification.show("Type ajouté avec succès!");
+                    success.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    dialog.close(); // Sauvegarde en base
+                } catch (BookTypeException ex) {
+                    Notification error = Notification.show(ex.getMessage());
+                    error.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
             } else {
                 Notification error = Notification.show("Renseignez un type.");
                 error.addThemeVariants(NotificationVariant.LUMO_ERROR);

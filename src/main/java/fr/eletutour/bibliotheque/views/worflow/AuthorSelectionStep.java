@@ -24,9 +24,7 @@ public class AuthorSelectionStep extends VerticalLayout {
         authorComboBox.setItemLabelGenerator(Author::getName);
 
         // Bouton pour ajouter un nouvel auteur
-        Button addAuthorButton = new Button("Ajouter un nouvel auteur", event -> {
-            openAddAuthorDialog(authorComboBox);
-        });
+        Button addAuthorButton = new Button("Ajouter un nouvel auteur", event -> openAddAuthorDialog(authorComboBox));
 
         add(authorComboBox, addAuthorButton);
 
