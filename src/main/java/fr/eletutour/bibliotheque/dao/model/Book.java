@@ -36,6 +36,9 @@ public class Book {
     @JoinColumn(name = "series_id")
     private Series series;
 
+    @Lob
+    private byte[] image;
+
     public Book() {
     }
 
@@ -93,5 +96,13 @@ public class Book {
 
     public void setSeries(Series series) {
         this.series = series;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
