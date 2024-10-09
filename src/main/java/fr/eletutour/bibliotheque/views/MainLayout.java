@@ -7,6 +7,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
+import fr.eletutour.bibliotheque.views.worflow.AddBookWorkflow;
 
 public class MainLayout extends AppLayout {
 
@@ -32,10 +33,13 @@ public class MainLayout extends AppLayout {
         SideNavItem bookTypeNavItem = new SideNavItem("Type", BookTypeListView.class, VaadinIcon.MAGIC.create());
         SideNavItem genreNaveItem = new SideNavItem("Genre", GenreListView.class, VaadinIcon.PAINTBRUSH.create());
 
+        SideNavItem addBookNavItem = new SideNavItem("Ajouter livre", AddBookWorkflow.class, VaadinIcon.PLUS.create());
+
         sideNav.addItem(authorNavItem);
         sideNav.addItem(bookNavItem);
         sideNav.addItem(bookTypeNavItem);
         sideNav.addItem(genreNaveItem);
+        sideNav.addItem(addBookNavItem);
 
         // Ajoute le SideNav au Drawer
         addToDrawer(sideNav);

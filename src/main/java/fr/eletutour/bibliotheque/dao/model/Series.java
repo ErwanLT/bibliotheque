@@ -20,6 +20,10 @@ public class Series {
     public Series() {
     }
 
+    public Series(String name){
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

@@ -3,7 +3,9 @@ package fr.eletutour.bibliotheque.dao.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -26,7 +28,7 @@ public class Book {
         joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private List<Genre> genres = new ArrayList<>();
+    private Set<Genre> genres = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "type_id")
@@ -38,6 +40,8 @@ public class Book {
 
     @Lob
     private byte[] image;
+
+    private Integer volumeNumber;
 
     public Book() {
     }
@@ -74,11 +78,11 @@ public class Book {
         this.author = author;
     }
 
-    public List<Genre> getGenres() {
+    public Set<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(Set<Genre> genres) {
         this.genres = genres;
     }
 
@@ -104,5 +108,13 @@ public class Book {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public Integer getVolumeNumber() {
+        return volumeNumber;
+    }
+
+    public void setVolumeNumber(Integer volumeNumber) {
+        this.volumeNumber = volumeNumber;
     }
 }

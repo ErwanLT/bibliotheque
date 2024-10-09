@@ -22,6 +22,11 @@ public class Author {
     public Author() {
     }
 
+    public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public Long getId() {
         return id;
     }
@@ -52,5 +57,9 @@ public class Author {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public String getName() {
+        return lastName.toUpperCase() + " " + firstName;
     }
 }
