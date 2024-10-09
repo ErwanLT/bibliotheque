@@ -54,6 +54,7 @@ public class BookInfoStep extends VerticalLayout {
         Button addNewSeriesButton = new Button("Ajouter Série", e -> {
             openAddSeriesDialog(seriesComboBox, seriesService);
         });
+        addNewSeriesButton.setVisible(false);
 
         // Activer/désactiver la ComboBox de série et le champ numéro de tome en fonction de la checkbox
         isPartOfSeriesCheckbox.addValueChangeListener(event -> {
