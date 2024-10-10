@@ -1,8 +1,10 @@
 package fr.eletutour.bibliotheque.views.worflow.steps;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -54,8 +56,11 @@ public class BookTypeSelectionStep extends VerticalLayout {
     private void openAddBookTypeDialog(ComboBox<BookType> bookTypeComboBox) {
         Dialog dialog = new Dialog();
 
+        dialog.add(new H1("Création d'un type"));
+
         // Champ pour le nouveau type de livre
         TextField newBookTypeField = new TextField("Nouveau Type");
+        newBookTypeField.setWidthFull();
         Button saveNewBookTypeButton = new Button("Ajouter Type", e -> {
             String newTypeName = newBookTypeField.getValue();
             if (!newTypeName.isEmpty()) {
@@ -77,12 +82,18 @@ public class BookTypeSelectionStep extends VerticalLayout {
                 error.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         });
+        saveNewBookTypeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
 
         // Bouton pour fermer la pop-up
         Button cancelButton = new Button("Annuler", e -> dialog.close());
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_ERROR);
+        cancelButton.getStyle().set("margin-inline-end", "auto");
+        HorizontalLayout boutonLayout = new HorizontalLayout(cancelButton, saveNewBookTypeButton);
+        boutonLayout.setWidthFull();
 
         // Ajout des champs et des boutons dans le dialog
-        VerticalLayout dialogLayout = new VerticalLayout(newBookTypeField, saveNewBookTypeButton, cancelButton);
+        VerticalLayout dialogLayout = new VerticalLayout(newBookTypeField, boutonLayout);
         dialog.add(dialogLayout);
         dialog.open(); // Ouvrir le dialog
     }

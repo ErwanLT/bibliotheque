@@ -1,10 +1,12 @@
 package fr.eletutour.bibliotheque.views.worflow.steps;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -128,7 +130,10 @@ public class BookInfoStep extends VerticalLayout {
     private void openAddGenreDialog(MultiSelectComboBox<Genre> genreComboBox, GenreService genreService){
         Dialog dialog = new Dialog();
 
+        dialog.add(new H1("Création d'un genre"));
+
         TextField newGenreNameField = new TextField("Nom du Genre");
+        newGenreNameField.setWidthFull();
         Button saveGenreButton = new Button("Sauvegarder", ev -> {
             String genreName = newGenreNameField.getValue();
             if (!genreName.isEmpty()) {
@@ -149,18 +154,28 @@ public class BookInfoStep extends VerticalLayout {
                 error.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         });
+        saveGenreButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_SUCCESS);
+
         // Bouton pour fermer la pop-up
         Button cancelButton = new Button("Annuler", e -> dialog.close());
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_ERROR);
+        cancelButton.getStyle().set("margin-inline-end", "auto");
+        HorizontalLayout boutonLayout = new HorizontalLayout(cancelButton, saveGenreButton);
+        boutonLayout.setWidthFull();
 
         // Ajout des champs et des boutons dans le dialog
-        VerticalLayout dialogLayout = new VerticalLayout(newGenreNameField, saveGenreButton, cancelButton);
+        VerticalLayout dialogLayout = new VerticalLayout(newGenreNameField, boutonLayout);
         dialog.add(dialogLayout);
         dialog.open();
     }
 
     private void openAddSeriesDialog(ComboBox<Series> seriesComboBox, SeriesService seriesService){
         Dialog addSeriesDialog = new Dialog();
+        addSeriesDialog.add(new H1("Création d'une série"));
         TextField newSeriesNameField = new TextField("Nom de la Série");
+        newSeriesNameField.setWidthFull();
         Button saveSeriesButton = new Button("Sauvegarder", ev -> {
             String seriesName = newSeriesNameField.getValue();
             if (!seriesName.isEmpty()) {
@@ -176,9 +191,17 @@ public class BookInfoStep extends VerticalLayout {
                 error.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         });
-        Button cancelButton = new Button("Annuler", e -> addSeriesDialog.close());
+        saveSeriesButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_SUCCESS);
 
-        VerticalLayout dialogLayout = new VerticalLayout(newSeriesNameField, saveSeriesButton, cancelButton);
+        Button cancelButton = new Button("Annuler", e -> addSeriesDialog.close());
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_ERROR);
+        cancelButton.getStyle().set("margin-inline-end", "auto");
+        HorizontalLayout boutonLayout = new HorizontalLayout(cancelButton, saveSeriesButton);
+        boutonLayout.setWidthFull();
+
+        VerticalLayout dialogLayout = new VerticalLayout(newSeriesNameField, boutonLayout);
         addSeriesDialog.add(dialogLayout);
         addSeriesDialog.open();
     }

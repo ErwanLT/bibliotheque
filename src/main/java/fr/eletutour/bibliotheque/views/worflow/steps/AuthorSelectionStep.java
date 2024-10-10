@@ -79,6 +79,7 @@ public class AuthorSelectionStep extends VerticalLayout {
         Button cancelButton = new Button("Annuler", e -> dialog.close());
         cancelButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
                 ButtonVariant.LUMO_ERROR);
+        cancelButton.getStyle().set("margin-inline-end", "auto");
         HorizontalLayout boutonLayout = new HorizontalLayout(cancelButton, saveNewAuthorButton);
         boutonLayout.setWidthFull();
 
