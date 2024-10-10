@@ -9,13 +9,14 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import fr.eletutour.bibliotheque.dao.model.Author;
 import fr.eletutour.bibliotheque.dao.model.Book;
+import fr.eletutour.bibliotheque.dto.BookDTO;
 import fr.eletutour.bibliotheque.service.AuthorService;
 
 public class AuthorSelectionStep extends VerticalLayout {
 
     private final AuthorService authorService;
 
-    public AuthorSelectionStep(Book book, Runnable onNext, AuthorService authorService) {
+    public AuthorSelectionStep(BookDTO book, Runnable onNext, AuthorService authorService) {
         this.authorService = authorService;
 
         // ComboBox pour sélectionner un auteur existant

@@ -1,59 +1,31 @@
-package fr.eletutour.bibliotheque.dao.model;
+package fr.eletutour.bibliotheque.dto;
 
-import jakarta.persistence.*;
+import fr.eletutour.bibliotheque.dao.model.Author;
+import fr.eletutour.bibliotheque.dao.model.BookType;
+import fr.eletutour.bibliotheque.dao.model.Genre;
+import fr.eletutour.bibliotheque.dao.model.Series;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-@Entity
-public class Book {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, unique = true)
+public class BookDTO {
     private String title;
 
     private String shelfmark; // for book classification
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
     private Author author;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "book_genre",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id")
-    )
     private Set<Genre> genres = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
     private BookType type;
 
-    @ManyToOne
-    @JoinColumn(name = "series_id")
     private Series series;
 
-    @Lob
     private byte[] image;
 
     private Integer volumeNumber;
 
-    public Book() {
-        this.title = "";
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public BookDTO() {
     }
 
     public String getTitle() {

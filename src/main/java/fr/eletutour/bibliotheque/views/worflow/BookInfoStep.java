@@ -10,17 +10,22 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import fr.eletutour.bibliotheque.config.exceptions.GenreException;
 import fr.eletutour.bibliotheque.dao.model.Book;
 import fr.eletutour.bibliotheque.dao.model.Genre;
 import fr.eletutour.bibliotheque.dao.model.Series;
+import fr.eletutour.bibliotheque.dto.BookDTO;
 import fr.eletutour.bibliotheque.service.GenreService;
 import fr.eletutour.bibliotheque.service.SeriesService;
+
+import java.io.IOException;
 
 
 public class BookInfoStep extends VerticalLayout {
 
-    public BookInfoStep(Book book, Runnable onNext, Runnable onPrevious, GenreService genreService, SeriesService seriesService) {
+    public BookInfoStep(BookDTO book, Runnable onNext, Runnable onPrevious, GenreService genreService, SeriesService seriesService) {
 
         // Champs pour le titre du livre
         TextField titleField = new TextField("Titre");
@@ -64,10 +69,26 @@ public class BookInfoStep extends VerticalLayout {
             }
         });
 
+        Upload upload = new Upload();
+        MemoryBuffer buffer = new MemoryBuffer();
+        upload.setAcceptedFileTypes("image/jpeg", "image/png", "image/gif");
+        upload.setMaxFileSize(2 * 1024 * 1024); // 2 MB
+        upload.setMaxFiles(1);
+        upload.setReceiver(buffer);
+        upload.addSucceededListener(event -> {
+            try {
+                book.setImage(buffer.getInputStream().readAllBytes());
+                Notification.show("Photo téléchargée avec succès!");
+            } catch (IOException e) {
+                Notification error = Notification.show("Problème rencontré lors du téléchargement de la photo.");
+                error.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }
+        });
+
         // Layout vertical pour le reste des champs
         VerticalLayout formLayout = new VerticalLayout();
         formLayout.setSpacing(true);
-        formLayout.add(titleField, genreComboBox, addNewGenreButton, isPartOfSeriesCheckbox, seriesComboBox, addNewSeriesButton, volumeNumberField);
+        formLayout.add(titleField, genreComboBox, addNewGenreButton, isPartOfSeriesCheckbox, seriesComboBox, addNewSeriesButton, volumeNumberField, upload);
 
         // Boutons de navigation
         Button nextButton = new Button("Fin", e -> {

@@ -1,8 +1,11 @@
 package fr.eletutour.bibliotheque.service;
 
-import fr.eletutour.bibliotheque.dao.model.Book;
+import fr.eletutour.bibliotheque.dao.model.*;
 import fr.eletutour.bibliotheque.dao.repository.BookRepository;
+import fr.eletutour.bibliotheque.dto.BookDTO;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BookService {
@@ -14,14 +17,12 @@ public class BookService {
     }
 
 
-    public void saveNewBook(Book book) {
-
-        book.setShelfmark(calculateShelfmark(book));
-
-        //bookRepository.save(book);
+    public void saveNewBook(BookDTO bookDTO) {
+        Book book = saveIncompleteBook(bookDTO);
+        finalizeBook(bookDTO, book);
     }
 
-    public String calculateShelfmark(Book book) {
+    public String calculateShelfmark(BookDTO book) {
         String authorName = book.getAuthor().getLastName().toUpperCase().substring(0, Math.min(4, book.getAuthor().getLastName().length()));
         String type = book.getType().getName();
         String shelfmark;
@@ -36,5 +37,26 @@ public class BookService {
             shelfmark += " " + book.getVolumeNumber();
         }
         return shelfmark;
+    }
+
+    public Book saveIncompleteBook(BookDTO bookDTO) {
+        Book book = new Book();
+        book.setTitle(bookDTO.getTitle());
+        book.setShelfmark(calculateShelfmark(bookDTO));
+        return bookRepository.save(book);
+    }
+
+    public void finalizeBook(BookDTO bookDTO, Book book) {
+        book.setAuthor(bookDTO.getAuthor());
+        book.setGenres(bookDTO.getGenres());
+        book.setType(bookDTO.getType());
+        book.setSeries(bookDTO.getSeries());
+        book.setVolumeNumber(bookDTO.getVolumeNumber());
+
+        bookRepository.save(book);
+    }
+
+    public List<Book> findAll() {
+        return bookRepository.findAll();
     }
 }

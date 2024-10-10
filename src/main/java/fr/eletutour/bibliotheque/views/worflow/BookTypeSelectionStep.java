@@ -11,13 +11,14 @@ import com.vaadin.flow.component.textfield.TextField;
 import fr.eletutour.bibliotheque.config.exceptions.BookTypeException;
 import fr.eletutour.bibliotheque.dao.model.Book;
 import fr.eletutour.bibliotheque.dao.model.BookType;
+import fr.eletutour.bibliotheque.dto.BookDTO;
 import fr.eletutour.bibliotheque.service.BookTypeService;
 
 public class BookTypeSelectionStep extends VerticalLayout {
 
     private final BookTypeService bookTypeService;
 
-    public BookTypeSelectionStep(Book book, Runnable onNext, Runnable onPrevious, BookTypeService bookTypeService) {
+    public BookTypeSelectionStep(BookDTO book, Runnable onNext, Runnable onPrevious, BookTypeService bookTypeService) {
         this.bookTypeService = bookTypeService;
 
         // ComboBox pour sélectionner un type de livre existant

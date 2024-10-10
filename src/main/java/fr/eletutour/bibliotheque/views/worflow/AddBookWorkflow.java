@@ -8,6 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import fr.eletutour.bibliotheque.dao.model.Book;
+import fr.eletutour.bibliotheque.dto.BookDTO;
 import fr.eletutour.bibliotheque.service.*;
 import fr.eletutour.bibliotheque.views.BookListView;
 import fr.eletutour.bibliotheque.views.MainLayout;
@@ -19,8 +20,7 @@ import java.util.List;
 @PageTitle("Ajouter livre")
 public class AddBookWorkflow extends VerticalLayout {
 
-    private final Book book = new Book(); // Temporary object to store the book data
-
+    private final BookDTO book = new BookDTO();
     private final BookService bookService;
     private final AuthorService authorService;
     private final BookTypeService bookTypeService;
@@ -71,7 +71,7 @@ public class AddBookWorkflow extends VerticalLayout {
 
     private void finishWizard() {
         bookService.saveNewBook(book);
-        Notification success =  Notification.show("Book added successfully!");
+        Notification success =  Notification.show("Livre ajouter avec succès!");
         success.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         UI.getCurrent().navigate(BookListView.class);
     }
