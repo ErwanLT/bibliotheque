@@ -7,7 +7,6 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import fr.eletutour.bibliotheque.dao.model.Book;
 import fr.eletutour.bibliotheque.dto.BookDTO;
 import fr.eletutour.bibliotheque.service.*;
 import fr.eletutour.bibliotheque.views.BookListView;

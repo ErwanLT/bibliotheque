@@ -1,6 +1,7 @@
 package fr.eletutour.bibliotheque.views.worflow;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -9,11 +10,9 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import fr.eletutour.bibliotheque.config.exceptions.GenreException;
-import fr.eletutour.bibliotheque.dao.model.Book;
 import fr.eletutour.bibliotheque.dao.model.Genre;
 import fr.eletutour.bibliotheque.dao.model.Series;
 import fr.eletutour.bibliotheque.dto.BookDTO;

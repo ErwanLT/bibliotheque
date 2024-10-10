@@ -1,6 +1,6 @@
 package fr.eletutour.bibliotheque.service;
 
-import fr.eletutour.bibliotheque.dao.model.*;
+import fr.eletutour.bibliotheque.dao.model.Book;
 import fr.eletutour.bibliotheque.dao.repository.BookRepository;
 import fr.eletutour.bibliotheque.dto.BookDTO;
 import org.springframework.stereotype.Service;

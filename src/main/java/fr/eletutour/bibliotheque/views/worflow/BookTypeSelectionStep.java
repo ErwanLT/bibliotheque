@@ -9,7 +9,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import fr.eletutour.bibliotheque.config.exceptions.BookTypeException;
-import fr.eletutour.bibliotheque.dao.model.Book;
 import fr.eletutour.bibliotheque.dao.model.BookType;
 import fr.eletutour.bibliotheque.dto.BookDTO;
 import fr.eletutour.bibliotheque.service.BookTypeService;

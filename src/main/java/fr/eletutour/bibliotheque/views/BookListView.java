@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.ListItem;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.html.UnorderedList;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -41,10 +42,14 @@ public class BookListView extends VerticalLayout {
             return listType;
         }).setHeader("Genre");
         bookGrid.addComponentColumn(b -> {
-            Image img = createImageFromBytes(b.getImage(), b.getTitle());
-            img.setHeight(150, Unit.PIXELS);
-            img.setWidth(150, Unit.PIXELS);
-            return img;
+            if(b.getImage() != null){
+                Image img = createImageFromBytes(b.getImage(), b.getTitle());
+                img.setHeight(150, Unit.PIXELS);
+                img.setWidth(150, Unit.PIXELS);
+                return img;
+            } else {
+                return new Span("NA");
+            }
         }).setHeader("Couverture");
         bookGrid.addColumn(Book::getShelfmark).setHeader("Cote");
         bookGrid.addColumn(b -> b.getSeries().getName()).setHeader("Série");
