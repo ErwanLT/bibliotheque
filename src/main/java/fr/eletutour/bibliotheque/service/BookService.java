@@ -52,6 +52,7 @@ public class BookService {
         book.setType(bookDTO.getType());
         book.setSeries(bookDTO.getSeries());
         book.setVolumeNumber(bookDTO.getVolumeNumber());
+        book.setImage(bookDTO.getImage());
 
         bookRepository.save(book);
     }

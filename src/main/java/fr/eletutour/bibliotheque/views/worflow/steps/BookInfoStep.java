@@ -1,4 +1,4 @@
-package fr.eletutour.bibliotheque.views.worflow;
+package fr.eletutour.bibliotheque.views.worflow.steps;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -26,6 +26,7 @@ public class BookInfoStep extends VerticalLayout {
 
     public BookInfoStep(BookDTO book, Runnable onNext, Runnable onPrevious, GenreService genreService, SeriesService seriesService) {
 
+        setSizeFull();
         // Champs pour le titre du livre
         TextField titleField = new TextField("Titre");
         titleField.setValue(book.getTitle() != null ? book.getTitle() : "");

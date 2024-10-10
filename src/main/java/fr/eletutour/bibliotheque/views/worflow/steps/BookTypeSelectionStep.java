@@ -1,4 +1,4 @@
-package fr.eletutour.bibliotheque.views.worflow;
+package fr.eletutour.bibliotheque.views.worflow.steps;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -19,6 +19,7 @@ public class BookTypeSelectionStep extends VerticalLayout {
 
     public BookTypeSelectionStep(BookDTO book, Runnable onNext, Runnable onPrevious, BookTypeService bookTypeService) {
         this.bookTypeService = bookTypeService;
+        setSizeFull();
 
         // ComboBox pour sélectionner un type de livre existant
         ComboBox<BookType> bookTypeComboBox = new ComboBox<>("Choisir Type");

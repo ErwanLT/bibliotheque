@@ -1,10 +1,13 @@
-package fr.eletutour.bibliotheque.views.worflow;
+package fr.eletutour.bibliotheque.views.worflow.steps;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import fr.eletutour.bibliotheque.dao.model.Author;
@@ -17,6 +20,7 @@ public class AuthorSelectionStep extends VerticalLayout {
 
     public AuthorSelectionStep(BookDTO book, Runnable onNext, AuthorService authorService) {
         this.authorService = authorService;
+        setSizeFull();
 
         // ComboBox pour sélectionner un auteur existant
         ComboBox<Author> authorComboBox = new ComboBox<>("Choix auteur");
@@ -46,9 +50,13 @@ public class AuthorSelectionStep extends VerticalLayout {
     private void openAddAuthorDialog(ComboBox<Author> authorComboBox) {
         Dialog dialog = new Dialog();
 
+        dialog.add(new H1("Création d'un auteur"));
+
         // Champs pour le prénom et le nom de famille
         TextField firstnameField = new TextField("Prénom");
+        firstnameField.setWidthFull();
         TextField lastnameField = new TextField("Nom de famille");
+        lastnameField.setWidthFull();
         Button saveNewAuthorButton = new Button("Sauvegarder", e -> {
             if (!firstnameField.isEmpty() && !lastnameField.isEmpty()) {
                 Author newAuthor = new Author(firstnameField.getValue(), lastnameField.getValue());
@@ -64,12 +72,18 @@ public class AuthorSelectionStep extends VerticalLayout {
                 error.addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
         });
+        saveNewAuthorButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_SUCCESS);
 
         // Bouton pour fermer la pop-up
         Button cancelButton = new Button("Annuler", e -> dialog.close());
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY,
+                ButtonVariant.LUMO_ERROR);
+        HorizontalLayout boutonLayout = new HorizontalLayout(cancelButton, saveNewAuthorButton);
+        boutonLayout.setWidthFull();
 
         // Ajout des champs et des boutons dans le dialog
-        VerticalLayout dialogLayout = new VerticalLayout(firstnameField, lastnameField, saveNewAuthorButton, cancelButton);
+        VerticalLayout dialogLayout = new VerticalLayout(firstnameField, lastnameField, boutonLayout);
         dialog.add(dialogLayout);
         dialog.open(); // Ouvrir le dialog
     }
