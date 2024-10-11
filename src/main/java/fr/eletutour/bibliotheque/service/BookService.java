@@ -23,21 +23,47 @@ public class BookService {
     }
 
     public String calculateShelfmark(BookDTO book) {
-        String authorName = book.getAuthor().getLastName().toUpperCase().substring(0, Math.min(4, book.getAuthor().getLastName().length()));
         String type = book.getType().getName();
-        String shelfmark;
-        // Calcul de la cote en fonction du type
+        String auteur = book.getAuthor().getLastName();
+
+        // Prendre les 4 premières lettres du nom de l'auteur
+        String auteurPart = auteur.substring(0, Math.min(4, auteur.length())).toUpperCase();
+
+        StringBuilder cote = new StringBuilder();
+
+        // Règle pour les types avec 2 caractères ou moins
         if (type.length() <= 2) {
-            shelfmark = type + authorName;
-        } else {
-            shelfmark = type.substring(0, 1).toUpperCase() + authorName;
+            cote.append(type.toUpperCase());
         }
-        // Ajout du numéro de tome si le livre fait partie d'une série
-        if (book.getSeries() != null && book.getVolumeNumber() != null) {
-            shelfmark += " " + book.getVolumeNumber();
+        // Règle pour les types avec plus de 3 caractères
+        else if (type.length() > 3) {
+            cote.append(type.substring(0, 1).toUpperCase());
         }
-        return shelfmark;
+
+        // Ajouter les 4 premières lettres du nom de l'auteur
+        cote.append(auteurPart);
+
+        // Si le livre fait partie d'une série, utiliser 5 lettres du titre de la série
+        if (book.getSeries() != null) {
+            String seriePart = book.getSeries().getName();
+            seriePart = seriePart.substring(0, Math.min(5, seriePart.length())).toUpperCase();
+            cote.append(seriePart);
+
+            // Ajouter le numéro de tome si applicable
+            if (book.getVolumeNumber() != null) {
+                cote.append(book.getVolumeNumber());
+            }
+        }
+        // Si le livre ne fait pas partie d'une série, utiliser 5 lettres du titre du livre
+        else {
+            String bookTitlePart = book.getTitle();
+            bookTitlePart = bookTitlePart.substring(0, Math.min(5, bookTitlePart.length())).toUpperCase();
+            cote.append(bookTitlePart);
+        }
+
+        return cote.toString();
     }
+
 
     public Book saveIncompleteBook(BookDTO bookDTO) {
         Book book = new Book();

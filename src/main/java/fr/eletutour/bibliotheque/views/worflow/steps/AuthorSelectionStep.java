@@ -49,9 +49,7 @@ public class AuthorSelectionStep extends VerticalLayout {
 
     private void openAddAuthorDialog(ComboBox<Author> authorComboBox) {
         Dialog dialog = new Dialog();
-
-        dialog.add(new H1("Création d'un auteur"));
-
+        dialog.setHeaderTitle("Création d'un auteur");
         // Champs pour le prénom et le nom de famille
         TextField firstnameField = new TextField("Prénom");
         firstnameField.setWidthFull();

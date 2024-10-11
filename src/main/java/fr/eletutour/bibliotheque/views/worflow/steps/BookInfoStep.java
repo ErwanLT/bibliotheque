@@ -129,8 +129,7 @@ public class BookInfoStep extends VerticalLayout {
 
     private void openAddGenreDialog(MultiSelectComboBox<Genre> genreComboBox, GenreService genreService){
         Dialog dialog = new Dialog();
-
-        dialog.add(new H1("Création d'un genre"));
+        dialog.setHeaderTitle("Création d'un genre");
 
         TextField newGenreNameField = new TextField("Nom du Genre");
         newGenreNameField.setWidthFull();
@@ -173,7 +172,7 @@ public class BookInfoStep extends VerticalLayout {
 
     private void openAddSeriesDialog(ComboBox<Series> seriesComboBox, SeriesService seriesService){
         Dialog addSeriesDialog = new Dialog();
-        addSeriesDialog.add(new H1("Création d'une série"));
+        addSeriesDialog.setHeaderTitle("Création d'une série");
         TextField newSeriesNameField = new TextField("Nom de la Série");
         newSeriesNameField.setWidthFull();
         Button saveSeriesButton = new Button("Sauvegarder", ev -> {

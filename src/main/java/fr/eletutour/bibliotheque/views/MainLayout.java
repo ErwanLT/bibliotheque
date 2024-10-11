@@ -1,5 +1,6 @@
 package fr.eletutour.bibliotheque.views;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H1;
@@ -18,6 +19,7 @@ public class MainLayout extends AppLayout {
 
     private void createHeader() {
         H1 logo = new H1("Ma bibliothèque");
+        logo.addClickListener(click -> UI.getCurrent().navigate(""));
         HorizontalLayout header = new HorizontalLayout(
                 new DrawerToggle(),
                 logo
