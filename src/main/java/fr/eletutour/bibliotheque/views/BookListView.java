@@ -52,7 +52,13 @@ public class BookListView extends VerticalLayout {
             }
         }).setHeader("Couverture");
         bookGrid.addColumn(Book::getShelfmark).setHeader("Cote");
-        bookGrid.addColumn(b -> b.getSeries().getName()).setHeader("Série");
+        bookGrid.addComponentColumn(b -> {
+            if (b.getSeries() != null){
+                return new Span(b.getSeries().getName());
+            } else {
+                return new Span();
+            }
+        }).setHeader("Série");
         bookGrid.addColumn(Book::getVolumeNumber).setHeader("Volume");
 
 

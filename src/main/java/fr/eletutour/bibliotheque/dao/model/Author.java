@@ -16,7 +16,7 @@ public class Author {
 
     private String lastName;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
     private List<Book> books = new ArrayList<>();
 
     public Author() {
