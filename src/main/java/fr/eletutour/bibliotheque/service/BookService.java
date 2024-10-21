@@ -1,11 +1,15 @@
 package fr.eletutour.bibliotheque.service;
 
 import fr.eletutour.bibliotheque.dao.model.Book;
+import fr.eletutour.bibliotheque.dao.model.BookType;
+import fr.eletutour.bibliotheque.dao.model.Genre;
 import fr.eletutour.bibliotheque.dao.repository.BookRepository;
 import fr.eletutour.bibliotheque.dto.BookDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -85,5 +89,28 @@ public class BookService {
 
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    public String findMostCommonBookType() {
+        List<Book> books = bookRepository.findAll();
+        return books.stream()
+                .collect(Collectors.groupingBy(Book::getType, Collectors.counting()))  // Compter les occurrences
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())  // Trouver le max
+                .map(Map.Entry::getKey)
+                .map(BookType::getName)// Récupérer le type
+                .orElse("");  // Si pas trouvé, retourner null
+    }
+
+    public String findMostCommonGenre() {
+        List<Book> books = bookRepository.findAll();
+        return books.stream()
+                .flatMap(book -> book.getGenres().stream())  // Aplatir le Set<Genre> en un Stream<Genre>
+                .collect(Collectors.groupingBy(genre -> genre, Collectors.counting()))  // Compter les occurrences
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())  // Trouver le genre le plus fréquent
+                .map(Map.Entry::getKey)
+                .map(Genre::getName)// Récupérer le genre
+                .orElse("");  // Si pas trouvé, retourner null
     }
 }

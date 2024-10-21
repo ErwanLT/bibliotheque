@@ -36,30 +36,23 @@ public class MainView extends VerticalLayout {
         add(titleLayout);
 
         // Premier layout horizontal avec les informations sur les auteurs et les livres
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
-        VerticalLayout authorLayout = new VerticalLayout();
-        sectionTitle("Auteurs", authorLayout);
-        var authors = authorService.findAll();
-        Span spanAuthor = new Span(String.format("Nous avons %s auteur(s) référencé(s)", authors.size()));
-        authorLayout.add(spanAuthor);
+        HorizontalLayout infoLayout = new HorizontalLayout();
+        infoLayout.setWidthFull();
+        VerticalLayout authorLayout = configureAuthorLayout();
+        VerticalLayout bookLayout = configureBookLayout();
+        VerticalLayout typeLayout = configureTypeLayout();
+        VerticalLayout genreLayout = configureGenreLayout();
+        infoLayout.add(authorLayout, bookLayout, typeLayout, genreLayout);
 
-        VerticalLayout bookLayout = new VerticalLayout();
-        sectionTitle("Livres", bookLayout);
-        var books = bookService.findAll();
-        Span spanBooks = new Span(String.format("Nous avons %s ouvrage(s) référencé(s)", books.size()));
-        bookLayout.add(spanBooks);
+        HorizontalLayout statLayout = new HorizontalLayout();
+        statLayout.setWidthFull();
+        VerticalLayout stats = configureStatisticsLayout();
+        statLayout.add(stats);
 
-        VerticalLayout typeLayout = new VerticalLayout();
-        sectionTitle("Types", typeLayout);
-        var types = bookTypeService.findAll();
-        Span spanType = new Span(String.format("Nous avons %s type(s) de livre(s) référencé(s)", types.size()));
-        typeLayout.add(spanType);
-        if(!types.isEmpty()){
-            UnorderedList typeList = new UnorderedList();
-            types.forEach(t -> typeList.add(new ListItem(t.getName())));
-            typeLayout.add(typeList);
-        }
+        add(infoLayout, statLayout);
+    }
 
+    private VerticalLayout configureGenreLayout() {
         VerticalLayout genreLayout = new VerticalLayout();
         sectionTitle("Genres", genreLayout);
         var genres = genreService.findAll();
@@ -70,9 +63,53 @@ public class MainView extends VerticalLayout {
             genres.forEach(t -> typeList.add(new ListItem(t.getName())));
             genreLayout.add(typeList);
         }
+        return genreLayout;
+    }
 
-        horizontalLayout.add(authorLayout, bookLayout, typeLayout, genreLayout);
-        add(horizontalLayout);
+    private VerticalLayout configureTypeLayout() {
+        VerticalLayout typeLayout = new VerticalLayout();
+        sectionTitle("Types", typeLayout);
+        var types = bookTypeService.findAll();
+        Span spanType = new Span(String.format("Nous avons %s type(s) de livre(s) référencé(s)", types.size()));
+        typeLayout.add(spanType);
+        if(!types.isEmpty()){
+            UnorderedList typeList = new UnorderedList();
+            types.forEach(t -> typeList.add(new ListItem(t.getName())));
+            typeLayout.add(typeList);
+        }
+        return typeLayout;
+    }
+
+    private VerticalLayout configureBookLayout() {
+        VerticalLayout bookLayout = new VerticalLayout();
+        sectionTitle("Livres", bookLayout);
+        var books = bookService.findAll();
+        Span spanBooks = new Span(String.format("Nous avons %s ouvrage(s) référencé(s)", books.size()));
+        bookLayout.add(spanBooks);
+        return bookLayout;
+    }
+
+    private VerticalLayout configureAuthorLayout() {
+        VerticalLayout authorLayout = new VerticalLayout();
+        sectionTitle("Auteurs", authorLayout);
+        var authors = authorService.findAll();
+        Span spanAuthor = new Span(String.format("Nous avons %s auteur(s) référencé(s)", authors.size()));
+        authorLayout.add(spanAuthor);
+        return authorLayout;
+    }
+
+    private VerticalLayout configureStatisticsLayout() {
+        VerticalLayout statisticsLayout = new VerticalLayout();
+        sectionTitle("Statistiques", statisticsLayout);
+
+        var mostCommonType = bookService.findMostCommonBookType();
+        var mostCommonGenre = bookService.findMostCommonGenre();
+
+        Span spanTypeStats = new Span(String.format("Type le plus fréquent : %s", mostCommonType));
+        Span spanGenreStats = new Span(String.format("Genre le plus fréquent : %s", mostCommonGenre));
+
+        statisticsLayout.add(spanTypeStats, spanGenreStats);
+        return statisticsLayout;
     }
 
 
